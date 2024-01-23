@@ -12,10 +12,6 @@ def get_user_score_db_connection():
     return conn
 
 
-# API endpoint to display the current week leaderboard (Top 200)
-@app.route('/', methods=['GET'])
-def current_week_leaderboard():
-    return "Hello"
 
 # API endpoint to display the current week leaderboard (Top 200)
 @app.route('/api/current_week_leaderboard', methods=['GET'])
