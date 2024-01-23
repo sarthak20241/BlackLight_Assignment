@@ -11,7 +11,9 @@ def get_user_score_db_connection():
     conn = sqlite3.connect(USER_SCORE_DATABASE)
     return conn
 
-
+@app.route('/')
+def flask_app():
+    return "Hello"
 
 # API endpoint to display the current week leaderboard (Top 200)
 @app.route('/api/current_week_leaderboard', methods=['GET'])
