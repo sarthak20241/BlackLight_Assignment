@@ -23,9 +23,15 @@ def current_week_leaderboard():
     # Assuming the week starts from monday
     start_date = end_date.date() - timedelta(days=end_date.weekday())
     
-    query = f"SELECT * FROM scoreboard_table WHERE TimeStamp BETWEEN '{start_date}' AND '{end_date}' " \
-            f"ORDER BY Score DESC " \
-            f"LIMIT 200"
+    query = f"SELECT UID, Name, MAX(Score) as MaxScore, Country, TimeStamp " \
+            f"FROM scoreboard_table " \
+            f"WHERE TimeStamp BETWEEN '{start_date}' AND '{end_date}'" \
+            f"GROUP BY UID  " \
+            f"ORDER BY MaxScore DESC  " \
+            f"LIMIT 200  " 
+            
+   
+    print(query)
     conn = get_user_score_db_connection()
     cursor = conn.cursor()
     cursor.execute(query)
@@ -40,12 +46,16 @@ def last_week_leaderboard(country):
     # Assuming the new week starts from Monday
     end_date = datetime.utcnow().date() - timedelta(days=datetime.utcnow().weekday())
     start_date = end_date - timedelta(days=7)
-
     
-    query = f"SELECT * FROM scoreboard_table WHERE TimeStamp BETWEEN '{start_date}' AND '{end_date}' AND " \
-            f"Country = '{country}' " \
-            "ORDER BY Score DESC " \
-            "LIMIT 200"
+    # Select the latest score for each user within the last week and the specified country
+    query = f"SELECT UID, Name, MAX(Score) as MaxScore, Country, TimeStamp " \
+            f"FROM scoreboard_table " \
+            f"WHERE TimeStamp BETWEEN '{start_date}' AND '{end_date}'" \
+            f"AND Country = '{country}'" \
+            f"GROUP BY UID  " \
+            f"ORDER BY MaxScore DESC  " \
+            f"LIMIT 200  " 
+    
     conn=get_user_score_db_connection()
     cursor=conn.cursor()
     cursor.execute(query)
@@ -57,7 +67,15 @@ def last_week_leaderboard(country):
 # API endpoint to fetch user rank given the userId
 @app.route('/api/user_rank/<uid>', methods=['GET'])
 def user_rank(uid):
-    query = f"SELECT COUNT(*)+1 as rank FROM scoreboard_table WHERE Score > (SELECT Score FROM scoreboard_table WHERE UID = '{uid}')"
+    
+    query = f"SELECT COUNT(*)+1 as rank  " \
+            f"FROM (" \
+            f"      SELECT UID, MAX(Score) as MaxScore" \
+            f"      FROM scoreboard_table " \
+            f"      GROUP BY UID  " \
+            f") as UserScores " \
+            f"WHERE MaxScore > (SELECT MAX(Score) FROM scoreboard_table WHERE UID = '{uid}')  " 
+    
     conn=get_user_score_db_connection()
     cursor=conn.cursor()
     cursor.execute(query)
@@ -66,5 +84,5 @@ def user_rank(uid):
     return jsonify(user_rank)
 
 
-# if __name__ == '__main__':
-#     app.run(debug=True)
+if __name__ == '__main__':
+    app.run(debug=True)
