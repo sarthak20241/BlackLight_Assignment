@@ -1,1 +1,1 @@
-web: gunicorn userQueries:app
+web: gunicorn app:app
