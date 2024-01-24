@@ -5,9 +5,11 @@ URL: https://blacklight-assignment.onrender.com
 API endpoints:
 
 To Display current week leaderboard (Top 200) : 
+
 /current_week_leaderboard
 
 Display last week leaderboard given a country by the user (Top 200) : 
+
 /last_week_leaderboard/<country>
 
 To fetch user rank, given the userId. : 
