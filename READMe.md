@@ -1,6 +1,6 @@
 URL: https://blacklight-assignment.onrender.com
 
-# For API calls append appropriate api endpoints to the above url
+**For API calls append appropriate api endpoints to the above url**
 
 API endpoints:
 
@@ -16,5 +16,5 @@ API endpoints:
 
 /user_rank/`<uid>`
 
-# note
+**note**
 I have taken into account that users may have attempted the game at different timestamps. Consequently, I have chosen to use the highest scores of each user to determine and display the current week leaderboard, past week leaderboard, and user rank.
