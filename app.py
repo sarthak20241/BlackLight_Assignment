@@ -23,6 +23,7 @@ def current_week_leaderboard():
     # Assuming the week starts from monday
     start_date = end_date.date() - timedelta(days=end_date.weekday())
     
+    # leaderboard of highest scores by distinct users in the current week
     query = f"SELECT UID, Name, MAX(Score) as MaxScore, Country, TimeStamp " \
             f"FROM scoreboard_table " \
             f"WHERE TimeStamp BETWEEN '{start_date}' AND '{end_date}'" \
@@ -31,7 +32,6 @@ def current_week_leaderboard():
             f"LIMIT 200  " 
             
    
-    print(query)
     conn = get_user_score_db_connection()
     cursor = conn.cursor()
     cursor.execute(query)
@@ -47,7 +47,7 @@ def last_week_leaderboard(country):
     end_date = datetime.utcnow().date() - timedelta(days=datetime.utcnow().weekday())
     start_date = end_date - timedelta(days=7)
     
-    # Select the latest score for each user within the last week and the specified country
+    # query to display leaderboard of highest score of distinct users of a country
     query = f"SELECT UID, Name, MAX(Score) as MaxScore, Country, TimeStamp " \
             f"FROM scoreboard_table " \
             f"WHERE TimeStamp BETWEEN '{start_date}' AND '{end_date}'" \
@@ -67,7 +67,7 @@ def last_week_leaderboard(country):
 # API endpoint to fetch user rank given the userId
 @app.route('/api/user_rank/<uid>', methods=['GET'])
 def user_rank(uid):
-    
+    # query to display user rank
     query = f"SELECT COUNT(*)+1 as rank  " \
             f"FROM (" \
             f"      SELECT UID, MAX(Score) as MaxScore" \
