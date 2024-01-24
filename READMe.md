@@ -24,4 +24,6 @@ example: https://blacklight-assignment.onrender.com/last_week_leaderboard/ET
 example: https://blacklight-assignment.onrender.com/user_rank/IUHL
 
 **note**
-I have taken into account that users may have attempted the game at different timestamps. Consequently, I have chosen to use the highest scores of each user to determine and display the current week leaderboard, past week leaderboard, and user rank.
+I have taken into account that user may have attempted the game multiple times at different timestamps. Consequently, I have chosen to use the highest scores of each user to determine and display the current week leaderboard, past week leaderboard, and user rank.
+
+The Database is hosted online and a table "scoreboard_table" is created and mock data is generated using python script "create_db.py". 
