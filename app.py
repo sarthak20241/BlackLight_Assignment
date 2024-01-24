@@ -66,5 +66,5 @@ def user_rank(uid):
     return jsonify(user_rank)
 
 
-if __name__ == '__main__':
-    app.run(debug=True)
+# if __name__ == '__main__':
+#     app.run(debug=True)
